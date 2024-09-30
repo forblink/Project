@@ -37,6 +37,7 @@ public class Res_3 extends javax.swing.JFrame {
         res_3 = new javax.swing.JLabel();
         booking = new javax.swing.JButton();
         home = new javax.swing.JLabel();
+        star = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(413, 735));
@@ -56,8 +57,7 @@ public class Res_3 extends javax.swing.JFrame {
             }
         });
 
-        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/restuarantReservation/home.jpg"))); // NOI18N
-        
+        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/restuarantReservation/homeBut.png"))); // NOI18N
         home.addMouseListener(new MouseAdapter() {
         	public void mouseClicked(MouseEvent e) {
         		MainFrame mf = new MainFrame();
@@ -65,35 +65,48 @@ public class Res_3 extends javax.swing.JFrame {
                 dispose();
         	}
         });
+        
+        star.setIcon(new javax.swing.ImageIcon(getClass().getResource("/restuarantReservation/starBut.png"))); // NOI18N
+        star.addMouseListener(new MouseAdapter() {
+        	public void mouseClicked(MouseEvent e) {
+        		JOptionPane.showMessageDialog(null, "Added to Favorite");
+//        		Favorite fav = new Favorite();
+//                fav.setVisible(true);
+//                dispose();
+        	}
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(home, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(booking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(img_3)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(res_3)))
-                .addGap(0, 0, Short.MAX_VALUE))
+        		layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                	.addGap(30, 30, 30)
+                	.addComponent(home, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                	.addGap(15, 15, 15)
+                	.addComponent(star, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                	.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                	.addComponent(booking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                	.addGap(50, 50, 50))
+                .addGroup(layout.createSequentialGroup()
+                	.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                		.addComponent(img_3)
+                        .addGroup(layout.createSequentialGroup()
+                        	.addGap(33, 33, 33)
+                        	.addComponent(res_3)))
+                    .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(img_3)
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
                 .addComponent(res_3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 476, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(booking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(home))
+                    .addComponent(home)
+                    .addComponent(star))
                 .addGap(49, 49, 49))
         );
 
@@ -134,5 +147,6 @@ public class Res_3 extends javax.swing.JFrame {
     private javax.swing.JLabel home;
     private javax.swing.JLabel img_3;
     private javax.swing.JLabel res_3;
+    private javax.swing.JLabel star;
     // End of variables declaration                   
 }

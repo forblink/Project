@@ -167,6 +167,9 @@ public class Booking extends javax.swing.JFrame {
     protected void bookedActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
     	JOptionPane.showMessageDialog(null, "Booking Success");
+    	MainFrame mf = new MainFrame();
+    	mf.setVisible(true);
+    	dispose();
 	}
 
 	private void resBoxActionPerformed(java.awt.event.ActionEvent evt) {                                       
