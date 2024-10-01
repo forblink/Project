@@ -69,7 +69,7 @@ public class Res_4 extends javax.swing.JFrame {
         star.setIcon(new javax.swing.ImageIcon(getClass().getResource("/restuarantReservation/starBut.png"))); // NOI18N
         star.addMouseListener(new MouseAdapter() {
         	public void mouseClicked(MouseEvent e) {
-        		JOptionPane.showMessageDialog(null, "Added to Favorite");
+        		JOptionPane.showMessageDialog(null, " to Favorite");
 //        		Favorite fav = new Favorite();
 //                fav.setVisible(true);
 //                dispose();
