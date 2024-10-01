@@ -10,7 +10,6 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.*;
 /**
  *
  * @author sitap
@@ -123,6 +122,9 @@ public class Booking extends javax.swing.JFrame {
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null, "Error writing booking information to file.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+                MainFrame mf = new MainFrame();
+                mf.setVisible(true);
+                dispose();
             }
         });
 
