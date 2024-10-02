@@ -49,6 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
         res_6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         setBackground(new java.awt.Color(255, 255, 255));
         setSize(new java.awt.Dimension(413, 735));
 

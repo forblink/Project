@@ -42,6 +42,7 @@ public class Res_1 extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(413, 735));
         setSize(new java.awt.Dimension(413, 735));
+        setResizable(false);
 
         img_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/restuarantReservation/res_1re.jpg"))); // NOI18N
 
