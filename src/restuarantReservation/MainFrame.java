@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 /**
  *
  * @author sitap
@@ -40,7 +39,6 @@ public class MainFrame extends javax.swing.JFrame {
         img_5 = new javax.swing.JLabel();
         img_6 = new javax.swing.JLabel();
         welcome = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
         res_1 = new javax.swing.JLabel();
         res_2 = new javax.swing.JLabel();
         res_4 = new javax.swing.JLabel();
@@ -49,10 +47,10 @@ public class MainFrame extends javax.swing.JFrame {
         res_6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
         setBackground(new java.awt.Color(255, 255, 255));
         setSize(new java.awt.Dimension(413, 735));
-
+        setResizable(false);
+        
         img_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/restuarantReservation/res_1.jpg"))); // NOI18N
 
         img_2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/restuarantReservation/res_2.jpg"))); // NOI18N
@@ -67,19 +65,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         welcome.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         welcome.setText("Welcome, USER");
-
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 413, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 59, Short.MAX_VALUE)
-        );
 
         res_1.setText("res_1");
 
@@ -182,16 +167,18 @@ public class MainFrame extends javax.swing.JFrame {
                 dispose();
         	}
         });
-        
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
+                        .addGap(59, 59, 59)
+                        .addComponent(welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(img_5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -208,18 +195,15 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(img_4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(img_6))
                             .addComponent(res_4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(res_6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(res_6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addComponent(welcome)
-                .addGap(46, 46, 46)
+                .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(img_1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(img_2))
@@ -244,8 +228,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(res_5)
                     .addComponent(res_6))
-                .addGap(88, 88, 88)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(128, Short.MAX_VALUE))
         );
 
         pack();
@@ -265,6 +248,7 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
             JOptionPane.showMessageDialog(null, "Failed to apply look-and-feel.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    	
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -280,7 +264,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel img_4;
     private javax.swing.JLabel img_5;
     private javax.swing.JLabel img_6;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel res_1;
     private javax.swing.JLabel res_2;
     private javax.swing.JLabel res_3;

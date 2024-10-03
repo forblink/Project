@@ -168,7 +168,7 @@ public class LoginFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please fill username ");
         }else if(password.equals("")){
             JOptionPane.showMessageDialog(null, "Please fill password");
-        }else if(username.contains("admin") && password.equals("1234")){
+        }else if(username.contains("test") && password.equals("1234")){
             //JOptionPane.showMessageDialog(null, "Login Successful");
             MainFrame mf = new MainFrame();
             mf.setVisible(true);
