@@ -7,6 +7,14 @@ package restuarantReservation;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -19,8 +27,20 @@ public class Booking extends javax.swing.JFrame {
     /**
      * Creates new form Booking
      */
+    private static final Logger logger = Logger.getLogger(Booking.class.getName());
+
     public Booking() {
         initComponents();
+        logger.info("Booking form initialized.");
+    }
+
+    // Database connection method
+    private Connection connect() throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/restaurant";
+        String user = "root";
+        String password = "password";
+        logger.info("Connecting to the database...");
+        return DriverManager.getConnection(url, user, password);
     }
 
     /**
@@ -77,7 +97,7 @@ public class Booking extends javax.swing.JFrame {
         time.setText("Time");
         time.setFocusTraversalPolicyProvider(true);
 
-        personBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Person", "1 person", "2 person", "3 person", "4 person",  "5 person", "10 person" }));
+        personBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Person", "1", "2", "3", "4", "5", "10" }));
 //        personBox.setMinimumSize(new java.awt.Dimension(72, 30));
 //        personBox.setPreferredSize(new java.awt.Dimension(72, 30));
         personBox.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -110,24 +130,49 @@ public class Booking extends javax.swing.JFrame {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 // Get selected restaurant, people, time, and name
             	
+//                String selectedRestaurant = resBox.getSelectedItem().toString();
+//                String selectedPeople = personBox.getSelectedItem().toString();
+//                String selectedHour = hourBox.getSelectedItem().toString();
+//                String selectedMinute = minBox.getSelectedItem().toString();
+//                String enteredName = nameText.getText();
+//
+//                // Combine the information to write into the file
+//                String bookingInfo = "Restaurant: \t" + selectedRestaurant + "\n"
+//                                   + "Name: \t\t" + enteredName + "\n"
+//                                   + "People: \t\t" + selectedPeople + "\n"
+//                                   + "Time: \t\t" + selectedHour + ":" + selectedMinute + "\n\n";
+//
+//                // Write the information into a file
+//                try (FileWriter fileWriter = new FileWriter("./src/booking.txt", true)) {
+//                    fileWriter.write(bookingInfo);
+//                    JOptionPane.showMessageDialog(null, "Booking information saved successfully.");
+//                } catch (IOException e) {
+//                    JOptionPane.showMessageDialog(null, "Error writing booking information to file.", "Error", JOptionPane.ERROR_MESSAGE);
+//                }
+//                MainFrame mf = new MainFrame();
+//                mf.setVisible(true);
+//                dispose();
+
                 String selectedRestaurant = resBox.getSelectedItem().toString();
                 String selectedPeople = personBox.getSelectedItem().toString();
                 String selectedHour = hourBox.getSelectedItem().toString();
                 String selectedMinute = minBox.getSelectedItem().toString();
                 String enteredName = nameText.getText();
-                
-                // Combine the information to write into the file
-                String bookingInfo = "Restaurant: \t" + selectedRestaurant + "\n"
-                                   + "Name: \t\t" + enteredName + "\n"
-                                   + "People: \t\t" + selectedPeople + "\n"
-                                   + "Time: \t\t" + selectedHour + ":" + selectedMinute + "\n\n";
 
-                // Write the information into a file
-                try (FileWriter fileWriter = new FileWriter("./src/booking.txt", true)) {
-                    fileWriter.write(bookingInfo);
+                String sql = "INSERT INTO bookings (restaurant, name, people, time) VALUES (?, ?, ?, ?)";
+
+                try (Connection conn = connect();
+                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setString(1, selectedRestaurant);
+                    pstmt.setString(2, enteredName);
+                    pstmt.setString(3, selectedPeople);
+                    pstmt.setString(4, selectedHour + ":" + selectedMinute);
+                    pstmt.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Booking information saved successfully.");
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Error writing booking information to file.", "Error", JOptionPane.ERROR_MESSAGE);
+                    logger.info("Booking information saved successfully.");
+                } catch (SQLException e) {
+                    logger.log(Level.SEVERE, "Error writing booking information to database.", e);
+                    JOptionPane.showMessageDialog(null, "Error writing booking information to database.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 MainFrame mf = new MainFrame();
                 mf.setVisible(true);
