@@ -174,7 +174,7 @@ public class LoginFrame extends javax.swing.JFrame {
             mf.setVisible(true);
             dispose();//close login page when fillpage show
         }else{
-            JOptionPane.showMessageDialog(null, "Username or Password WSrong!!!","Message",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Username or Password Wrong!!!","Message",JOptionPane.ERROR_MESSAGE);
         }
     }                                  
 
