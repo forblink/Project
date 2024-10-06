@@ -154,7 +154,8 @@ public class Booking extends javax.swing.JFrame {
                 String selectedHour = hourBox.getSelectedItem().toString();
                 String selectedMinute = minBox.getSelectedItem().toString();
                 String enteredName = nameText.getText();
-
+                String selectDate = jDateChooser1.getDateFormatString().toString();
+                
                 String sql = "INSERT INTO bookings (restaurant, name, people, time) VALUES (?, ?, ?, ?)";
 
                 try (Connection conn = connect();
@@ -162,7 +163,8 @@ public class Booking extends javax.swing.JFrame {
                     pstmt.setString(1, selectedRestaurant);
                     pstmt.setString(2, enteredName);
                     pstmt.setString(3, selectedPeople);
-                    pstmt.setString(4, selectedHour + ":" + selectedMinute);
+                    pstmt.setString(4, selectDate);
+                    pstmt.setString(5, selectedHour + ":" + selectedMinute);
                     pstmt.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Booking information saved successfully.");
                     logger.info("Booking information saved successfully.");
