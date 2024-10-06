@@ -4,8 +4,15 @@
  */
 package restuarantReservation;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -19,8 +26,20 @@ public class Booking extends javax.swing.JFrame {
     /**
      * Creates new form Booking
      */
+    private static final Logger logger = Logger.getLogger(Booking.class.getName());
+
     public Booking() {
         initComponents();
+        logger.info("Booking form initialized.");
+    }
+
+    // Database connection method
+    private Connection connect() throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/restaurant";
+        String user = "root";
+        String password = "password";
+        logger.info("Connecting to the database...");
+        return DriverManager.getConnection(url, user, password);
     }
 
     /**
@@ -48,6 +67,8 @@ public class Booking extends javax.swing.JFrame {
         hourBox = new javax.swing.JComboBox<>();
 //        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         minBox = new javax.swing.JComboBox<>();
+        home = new javax.swing.JLabel();
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(413, 735));
@@ -77,7 +98,7 @@ public class Booking extends javax.swing.JFrame {
         time.setText("Time");
         time.setFocusTraversalPolicyProvider(true);
 
-        personBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Person", "1 person", "2 person", "3 person", "4 person",  "5 person", "10 person" }));
+        personBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Person", "1", "2", "3", "4", "5", "10" }));
 //        personBox.setMinimumSize(new java.awt.Dimension(72, 30));
 //        personBox.setPreferredSize(new java.awt.Dimension(72, 30));
         personBox.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -110,24 +131,49 @@ public class Booking extends javax.swing.JFrame {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 // Get selected restaurant, people, time, and name
             	
+//                String selectedRestaurant = resBox.getSelectedItem().toString();
+//                String selectedPeople = personBox.getSelectedItem().toString();
+//                String selectedHour = hourBox.getSelectedItem().toString();
+//                String selectedMinute = minBox.getSelectedItem().toString();
+//                String enteredName = nameText.getText();
+//
+//                // Combine the information to write into the file
+//                String bookingInfo = "Restaurant: \t" + selectedRestaurant + "\n"
+//                                   + "Name: \t\t" + enteredName + "\n"
+//                                   + "People: \t\t" + selectedPeople + "\n"
+//                                   + "Time: \t\t" + selectedHour + ":" + selectedMinute + "\n\n";
+//
+//                // Write the information into a file
+//                try (FileWriter fileWriter = new FileWriter("./src/booking.txt", true)) {
+//                    fileWriter.write(bookingInfo);
+//                    JOptionPane.showMessageDialog(null, "Booking information saved successfully.");
+//                } catch (IOException e) {
+//                    JOptionPane.showMessageDialog(null, "Error writing booking information to file.", "Error", JOptionPane.ERROR_MESSAGE);
+//                }
+//                MainFrame mf = new MainFrame();
+//                mf.setVisible(true);
+//                dispose();
+
                 String selectedRestaurant = resBox.getSelectedItem().toString();
                 String selectedPeople = personBox.getSelectedItem().toString();
                 String selectedHour = hourBox.getSelectedItem().toString();
                 String selectedMinute = minBox.getSelectedItem().toString();
                 String enteredName = nameText.getText();
-                
-                // Combine the information to write into the file
-                String bookingInfo = "Restaurant: \t" + selectedRestaurant + "\n"
-                                   + "Name: \t\t" + enteredName + "\n"
-                                   + "People: \t\t" + selectedPeople + "\n"
-                                   + "Time: \t\t" + selectedHour + ":" + selectedMinute + "\n\n";
 
-                // Write the information into a file
-                try (FileWriter fileWriter = new FileWriter("./src/booking.txt", true)) {
-                    fileWriter.write(bookingInfo);
+                String sql = "INSERT INTO bookings (restaurant, name, people, time) VALUES (?, ?, ?, ?)";
+
+                try (Connection conn = connect();
+                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setString(1, selectedRestaurant);
+                    pstmt.setString(2, enteredName);
+                    pstmt.setString(3, selectedPeople);
+                    pstmt.setString(4, selectedHour + ":" + selectedMinute);
+                    pstmt.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Booking information saved successfully.");
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Error writing booking information to file.", "Error", JOptionPane.ERROR_MESSAGE);
+                    logger.info("Booking information saved successfully.");
+                } catch (SQLException e) {
+                    logger.log(Level.SEVERE, "Error writing booking information to database.", e);
+                    JOptionPane.showMessageDialog(null, "Error writing booking information to database.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 MainFrame mf = new MainFrame();
                 mf.setVisible(true);
@@ -154,6 +200,15 @@ public class Booking extends javax.swing.JFrame {
                 minBoxActionPerformed(evt);
             }
         });
+        
+        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/restuarantReservation/homeBut.png"))); // NOI18N      
+        home.addMouseListener(new MouseAdapter() {
+        	public void mouseClicked(MouseEvent e) {
+        		MainFrame mf = new MainFrame();
+                mf.setVisible(true);
+                dispose();
+        	}
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -166,20 +221,18 @@ public class Booking extends javax.swing.JFrame {
                             .addComponent(booked, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(44, 44, 44)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(personBox, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(home, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(nameText)
                                     .addComponent(note)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE))
-                                .addComponent(person)
-                                .addComponent(res)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(resBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                                    .addComponent(person)
+                                    .addComponent(res)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//                                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            //.addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,44 +240,49 @@ public class Booking extends javax.swing.JFrame {
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(hourBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(minBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                .addComponent(booking))))
-                .addGap(50, 50, 50))
+                                                .addComponent(minBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(personBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(booking)
+                                    .addComponent(resBox, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGap(50, 50, 50))
         );
+        
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(booking)
-                .addGap(18, 18, 18)
-                .addComponent(res)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(date)
-                    .addComponent(time))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(hourBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-//                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(minBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(person)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(personBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(name)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(note)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(booked, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(153, 153, 153))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(46, 46, 46)
+                    .addComponent(booking)
+                    .addGap(18, 18, 18)
+                    .addComponent(res)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(resBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(date)
+                        .addComponent(time))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(hourBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(minBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGap(18, 18, Short.MAX_VALUE)
+                    .addComponent(person)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(personBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(name)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(nameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(note)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(20, 20, 20)
+                    .addComponent(booked, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(home)
+                    .addGap(125, 125, 125))
+            );
 
         pack();
     }// </editor-fold>                        
@@ -273,6 +331,7 @@ public class Booking extends javax.swing.JFrame {
     private javax.swing.JButton booked;
     private javax.swing.JLabel booking;
     private javax.swing.JLabel date;
+    private javax.swing.JLabel home;
 //    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> hourBox;
