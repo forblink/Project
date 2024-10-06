@@ -65,7 +65,7 @@ public class Booking extends javax.swing.JFrame {
         noteText = new javax.swing.JTextArea();
         booked = new javax.swing.JButton();
         hourBox = new javax.swing.JComboBox<>();
-//        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         minBox = new javax.swing.JComboBox<>();
         home = new javax.swing.JLabel();
 
@@ -79,9 +79,7 @@ public class Booking extends javax.swing.JFrame {
         booking.setText("Booking");
 
         resBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Restuarant", "Res 1", "Res 2", "Res 3", "Res 4", "Res 5", "Res 6" }));
-//        resBox.setMinimumSize(new java.awt.Dimension(72, 30));
         resBox.setFont(new java.awt.Font("Dialog", 0, 12));
-//        resBox.setPreferredSize(new java.awt.Dimension(72, 30));
         resBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resBoxActionPerformed(evt);
@@ -99,8 +97,6 @@ public class Booking extends javax.swing.JFrame {
         time.setFocusTraversalPolicyProvider(true);
 
         personBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Person", "1", "2", "3", "4", "5", "10" }));
-//        personBox.setMinimumSize(new java.awt.Dimension(72, 30));
-//        personBox.setPreferredSize(new java.awt.Dimension(72, 30));
         personBox.setFont(new java.awt.Font("Dialog", 0, 12));
         personBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,7 +115,6 @@ public class Booking extends javax.swing.JFrame {
         note.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         note.setText("Addition Note");
 
-//        noteText.setPreferredSize(new java.awt.Dimension(72,30));
         noteText.setColumns(20);
         noteText.setRows(5);
         noteText.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -182,9 +177,7 @@ public class Booking extends javax.swing.JFrame {
         });
 
         hourBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "6", "7", "8", "9", "10", "11" }));
-//        hourBox.setMinimumSize(new java.awt.Dimension(72, 30));
         hourBox.setFont(new java.awt.Font("Dialog", 0, 12));
-//        hourBox.setPreferredSize(new java.awt.Dimension(72, 30));
         hourBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hourBoxActionPerformed(evt);
@@ -192,9 +185,7 @@ public class Booking extends javax.swing.JFrame {
         });
         
         minBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55" }));
-//        minBox.setMinimumSize(new java.awt.Dimension(72, 30));
         minBox.setFont(new java.awt.Font("Dialog", 0, 12));
-//        minBox.setPreferredSize(new java.awt.Dimension(72, 30));
         minBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 minBoxActionPerformed(evt);
@@ -232,7 +223,7 @@ public class Booking extends javax.swing.JFrame {
                                     .addComponent(res)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            //.addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,7 +254,7 @@ public class Booking extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(hourBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-//                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(minBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(18, 18, Short.MAX_VALUE)
                     .addComponent(person)
@@ -332,7 +323,7 @@ public class Booking extends javax.swing.JFrame {
     private javax.swing.JLabel booking;
     private javax.swing.JLabel date;
     private javax.swing.JLabel home;
-//    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> hourBox;
     private javax.swing.JComboBox<String> minBox;
