@@ -154,16 +154,21 @@ public class Booking extends javax.swing.JFrame {
                 String selectedHour = hourBox.getSelectedItem().toString();
                 String selectedMinute = minBox.getSelectedItem().toString();
                 String enteredName = nameText.getText();
-                String selectDate = jDateChooser1.getDateFormatString().toString();
+                java.util.Date selectedDate = jDateChooser1.getDate();
                 
-                String sql = "INSERT INTO bookings (restaurant, name, people, time) VALUES (?, ?, ?, ?)";
+                if (selectedDate == null) {
+                    JOptionPane.showMessageDialog(null, "Please select a date.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return; // Exit the method if no date is selected
+                }
+                
+                String sql = "INSERT INTO bookings (restaurant, bookingname, people, date, time) VALUES (?, ?, ?, ?, ?)";
 
                 try (Connection conn = connect();
                      PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, selectedRestaurant);
                     pstmt.setString(2, enteredName);
                     pstmt.setString(3, selectedPeople);
-                    pstmt.setString(4, selectDate);
+                    pstmt.setDate(4, new java.sql.Date(selectedDate.getTime()));
                     pstmt.setString(5, selectedHour + ":" + selectedMinute);
                     pstmt.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Booking information saved successfully.");
